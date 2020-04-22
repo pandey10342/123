@@ -12,7 +12,7 @@ initMap = function(id , drag_map, drag_end){
 	dump("drag_map=>"+ drag_map);
 	dump("drag_end=>"+ drag_end);
 	
-	if(app_settings = getAppSettings()){
+	if(app_settings = AppSettings()){
 		dump(app_settings);
 		dump("map provider=>"+ app_settings.map_provider.provider);
 		switch(app_settings.map_provider.provider){
@@ -199,7 +199,7 @@ merchantMapSetList = function(data){
 
 getRandomMarker = function(){
 	rnd_icon ='';
-	if(app_settings = getAppSettings()){	
+	if(app_settings = AppSettings()){	
 		total_marker = app_settings.marker_icon.length;		
 		rnd = Math.floor(Math.random() * parseInt(total_marker) );		
 		rnd_icon = app_settings.marker_icon[rnd];
@@ -218,7 +218,7 @@ merchantLocationRoute = function(){
 
 getDefaultIcon = function(){
 	icon='';      
-    if(app_settings = getAppSettings()){
+    if(app_settings = AppSettings()){
 		switch(app_settings.map_provider.provider){
 			case "google.maps":
 			    icon = app_settings.icons.marker1;
@@ -233,7 +233,7 @@ getDefaultIcon = function(){
 };
 
 mapClearRoute = function(){	
-	if(app_settings = getAppSettings()){
+	if(app_settings = AppSettings()){
 		switch(app_settings.map_provider.provider){
 			case "google.maps":
 			   map.cleanRoute();
@@ -262,7 +262,7 @@ initMapSelectLocation = function(lat, lng){
 		   dump("lat=>"+ lat + "lng=>"+ lng);
 		   
 		   icon='';
-		   if(app_settings = getAppSettings()){
+		   if(app_settings = AppSettings()){
 		      icon = app_settings.icons.marker2
 		   }
 		   
@@ -285,7 +285,7 @@ initMapSelectLocation = function(lat, lng){
 };
 
 initGeocomplete = function(element){
-	if(app_settings = getAppSettings()){
+	if(app_settings = AppSettings()){
 		switch(app_settings.map_provider.provider){
 			case "google.maps":			    
 			
@@ -295,6 +295,7 @@ initGeocomplete = function(element){
 				'country': getDefaultCountry()
 				}).bind("geocode:result", function(event, result){		
 					
+					
 					address = result.formatted_address;
 					
 					var address_components = result.address_components;
@@ -303,65 +304,79 @@ initGeocomplete = function(element){
                     	jQuery.each(v1.types, function(k2, v2){
                     		components[v2]=v1.long_name});
                     });
-																													
-					$(".print_location_address").html( address );
-			   	  	$(".recent_search_address").val( address );
-					
-					dump('geocode:result');
+                    
+                    dump(components);
+                    
+                    dump('geocode:result');
 					geo_lat =   result.geometry.location.lat();
-					geo_lng =   result.geometry.location.lng();
+					geo_lng =   result.geometry.location.lng();									    
+										
+					popPage();		
 					
-					popPage();
-														   
-					setTimeout(function() {
+					setTimeout(function() {		
+																			
 					    map_setLangLngValue( geo_lat , geo_lng );
 			            map_setCenter( geo_lat , geo_lng );
-					    map_moveMarker( 1, geo_lat ,  geo_lng );	
+					    map_moveMarker( 1, geo_lat ,  geo_lng );		
 					    
-					    current_page_id = onsenNavigator.topPage.id;
-					    dump("current_page_id=>"+current_page_id);
+					    params="lat="+ geo_lat;
+					    params+="&lng="+ geo_lng;
+					    params+="&search_address="+ address;
 					    
-					    if(current_page_id=="address_form" || current_page_id=="map_select_location" || current_page_id=="address_book"){
-					    if(!isLocation()){	
-					    	street='';
-						    if(!empty(components.neighborhood)){	
-						    	street+=components.neighborhood;
-						    	street+=" ";
-						    } 
-						    if(!empty(components.route)){	
-						    	street+=components.route;
-						    } 
-						    
-						    if(!empty(street)){						       
-						       $(".street").val(street);
-						    } else {
-						       $(".street").val('');
-						    }
-					    	
-						    if(!empty(components.locality)){						      
-						       $(".city").val(components.locality);
-						    } else {
-						       $(".city").val('');
-						    }	
-						    
-						    state='';					    
-						    if(!empty(components.administrative_area_level_1)){
-						      state+=components.administrative_area_level_1;
-						      state+=" ";
-						    }				    				   
-						    if(!empty(components.administrative_area_level_2)){
-						      state+=components.administrative_area_level_2;
-						    }				    				   
-						    
-						    if(!empty(state)){
-						       params+="&state="+ state;
-						       $(".state").val(state);
-						    } else {
-						    	$(".state").val('');
-						    }						    		
-					    }					    
-					    }/* end if*/
-					    			    
+					    $(".search_address2").val(address);
+					    
+					    if(!empty(components.country)){
+					      params+="&country="+ components.country;				      
+					    } 
+					    
+					    street='';
+					    if(!empty(components.neighborhood)){	
+					    	street+=components.neighborhood;
+					    	street+=" ";
+					    } 
+					    if(!empty(components.route)){	
+					    	street+=components.route;
+					    } 
+					    
+					    if(!empty(street)){
+					       params+="&street="+ street;
+					       $(".street").val(street);
+					    } else {
+					       $(".street").val('');
+					    }
+					    
+					    if(!empty(components.locality)){
+					      params+="&city="+ components.locality;
+					      $(".city").val(components.locality);
+					    } else {
+					    	$(".city").val('');
+					    }				    
+					    
+					    state='';
+					    
+					    if(!empty(components.administrative_area_level_1)){
+					      state+=components.administrative_area_level_1;
+					      state+=" ";
+					    }				    				   
+					    if(!empty(components.administrative_area_level_2)){
+					      state+=components.administrative_area_level_2;
+					    }				    				   
+					    
+					    if(!empty(state)){
+					       params+="&state="+ state;
+					       $(".state").val(state);
+					    } else {
+					    	$(".state").val('');
+					    }
+					    
+					    if(isLocation()){					    	
+					    	clearLocationForm({
+								city:'city',
+								area:'area',
+								state:'state'
+							});
+					    }
+					    					    	    					    
 				    }, 50);     
 				    
 				});				
@@ -457,7 +472,7 @@ gmaps_AskLocation = function(){
 	  	map_setLangLngValue( your_lat , your_lng );	  	  	    
 	    
 	    icon='';
-	    if(app_settings = getAppSettings()){
+	    if(app_settings = AppSettings()){
 	       icon = app_settings.icons.marker2
 	    }	    	    
 	    
@@ -485,6 +500,7 @@ gmaps_AskLocation = function(){
 	    		    	
 	    	switch(current_page_id){
 	    		case "location":
+	    		case "map":
 	    			    		  	    		 
 	    		  merchant_lat = $(".merchant_lat").val();
 	    		  merchant_lng = $(".merchant_lng").val();
@@ -521,9 +537,9 @@ deviceAskLocation = function(){
 		
 		var request_priority;
 		request_priority='REQUEST_PRIORITY_BALANCED_POWER_ACCURACY';
-		if(app_settings = getAppSettings()){		
-			if(!empty(app_settings.mobile2_location_accuracy)){
-			   request_priority  = app_settings.mobile2_location_accuracy;
+		if(app_settings = AppSettings()){		
+			if(!empty(app_settings.singleapp_location_accuracy)){
+			   request_priority  = app_settings.singleapp_location_accuracy;
 			}
 		}
 		
@@ -640,7 +656,7 @@ setDefaultMarker = function(){
 			case "address_form":
 			case "address_book":
 						
-			    if(app_settings = getAppSettings()){
+			    if(app_settings = AppSettings()){
                    icon = app_settings.icons.marker2
                 }	  	
                 
@@ -676,7 +692,7 @@ geolocationSuccess = function(position){
 	map_setLangLngValue( your_lat , your_lng );	
 	
 	icon='';
-    if(app_settings = getAppSettings()){
+    if(app_settings = AppSettings()){
        icon = app_settings.icons.marker2
     }	  
     
@@ -704,6 +720,7 @@ geolocationSuccess = function(position){
     		    	
     	switch(current_page_id){
     		case "location":
+    		case "map":    		
     			    		  	    		 
     		  merchant_lat = $(".merchant_lat").val();
     		  merchant_lng = $(".merchant_lng").val();
@@ -723,7 +740,7 @@ geolocationSuccess = function(position){
 };
 
 map_addRoute = function(index,your_lat,your_lng,merchant_lat,merchant_lng, set_icon ){
-	if(app_settings = getAppSettings()){
+	if(app_settings = AppSettings()){
 		switch(app_settings.map_provider.provider){
 			case "google.maps":
 			  map.setZoom(10);
@@ -791,7 +808,7 @@ map_setCenter = function(lat, lng){
 	
 	dump("map_setCenter");
 			
-	if(app_settings = getAppSettings()){
+	if(app_settings = AppSettings()){
 		switch(app_settings.map_provider.provider){
 			case "google.maps":
 			   default_zoom = 15;
@@ -824,7 +841,7 @@ map_setCenter = function(lat, lng){
 };
 
 map_center = function(){
-	if(app_settings = getAppSettings()){
+	if(app_settings = AppSettings()){
 		switch(app_settings.map_provider.provider){
 			case "google.maps":  
 			  map.fitLatLngBounds(map_bounds);
@@ -839,7 +856,7 @@ map_center = function(){
 
 map_addMarker = function(index, lat, lng, icon,  info_html){
 			
-	if(app_settings = getAppSettings()){
+	if(app_settings = AppSettings()){
 				
 		switch(app_settings.map_provider.provider){
 			case "google.maps":
@@ -999,7 +1016,7 @@ map_moveMarker = function(index, lat , lng){
 	
 	try {
 	
-		if(app_settings = getAppSettings()){
+		if(app_settings = AppSettings()){
 			
 			switch(app_settings.map_provider.provider){
 				case "google.maps":			   
@@ -1051,7 +1068,7 @@ GeocodeLat = function(lat, lng){
 		return;
 	}	
 	dump("GeocodeLat");
-	if(app_settings = getAppSettings()){
+	if(app_settings = AppSettings()){
 		switch(app_settings.map_provider.provider){
 			case "google.maps":
 			   var geocoder = new google.maps.Geocoder;
@@ -1114,15 +1131,18 @@ iniTrackMap = function(id, data){
 	   	     //map_center();
 		  }
 		  		  		  
-	  	  if(app_settings = getAppSettings()){
+	  	  if(app_settings = AppSettings()){
 	  	  	 switch(app_settings.map_provider.provider){
 	  	  	 	case "google.maps":
 	  	  	 	   if(!empty(data.dropoff_lat)){
 	  	  	 	   	  map_addRoute(1, data.driver_lat, data.driver_lng, data.dropoff_lat, data.dropoff_lng );
 	  	  	 	   }
-	  	  	 	   setTimeout(function() {	
-	  	  	 	      map_addRoute(2, data.dropoff_lat, data.dropoff_lng, data.task_lat, data.task_lng );
-	  	  	 	   }, 1000); 
+	  	  	 	   
+	  	  	 	   if(!empty(data.dropoff_lat)){
+		  	  	 	   setTimeout(function() {	
+		  	  	 	      map_addRoute(2, data.dropoff_lat, data.dropoff_lng, data.task_lat, data.task_lng );
+		  	  	 	   }, 1000); 
+	  	  	 	   }
 	  	  	 	break;
 	  	  	 	
 	  	  	 	case "mapbox":
