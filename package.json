@@ -5,9 +5,15 @@
   "cordova": {
     "platforms": [
       "android"
-    ]
+    ],
+    "plugins": {
+      "cordova-admob": {}
+    }
   },
   "dependencies": {
-    "cordova-android": "~7.1.4"
+    "cordova-admob": "^5.1.0",
+    "cordova-android": "~7.1.4",
+    "cordova-connectivity-monitor": "^1.2.2",
+    "cordova-play-services-version-adapter": "^1.0.2"
   }
 }

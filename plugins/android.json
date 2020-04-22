@@ -15,6 +15,9 @@
     "com.cmackay.plugins.googleanalytics": {
       "ANALYTICS_VERSION": "11.0.1",
       "PACKAGE_NAME": "com.appetics.online"
+    },
+    "cordova-admob": {
+      "PACKAGE_NAME": "com.appetics.online"
     }
   },
   "dependent_plugins": {
@@ -22,6 +25,12 @@
       "PACKAGE_NAME": "com.appetics.online"
     },
     "cordova-plugin-dialogs": {
+      "PACKAGE_NAME": "com.appetics.online"
+    },
+    "cordova-connectivity-monitor": {
+      "PACKAGE_NAME": "com.appetics.online"
+    },
+    "cordova-play-services-version-adapter": {
       "PACKAGE_NAME": "com.appetics.online"
     }
   }
