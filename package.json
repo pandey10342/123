@@ -1,0 +1,13 @@
+{
+  "name": "com.appetics.online",
+  "version": "1.4",
+  "displayName": "Appetics - Order Food Online",
+  "cordova": {
+    "platforms": [
+      "android"
+    ]
+  },
+  "dependencies": {
+    "cordova-android": "~7.1.4"
+  }
+}
