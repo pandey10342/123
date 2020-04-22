@@ -30,10 +30,7 @@
     <gap:plugin name="cordova-plugin-request-location-accuracy_sayeh" source="npm" spec="2.2.2" />
     <gap:plugin name="cordova-plugin-camera" source="npm" spec="2.4.1" />
     <gap:plugin name="cordova-plugin-file-transfer" source="npm" spec="1.7.1" />
-    <gap:plugin name="cordova-plugin-googleplus" source="npm" spec="7.0.2">
-        <variable name="REVERSED_CLIENT_ID" value="" />
-        <variable name="PLAY_SERVICES_VERSION" value="11.0.1" />
-    </gap:plugin>
+    
     <gap:plugin name="com-sarriaroman-photoviewer" source="npm" />
     <gap:plugin name="cordova-plugin-statusbar" source="npm" />
     <access origin="*" />
@@ -146,6 +143,6 @@
         <splash height="2732" platform="ios" src="res/screens/ios/Default@2x~ipad~anyany.png" width="2732" />
         <splash height="2732" platform="ios" src="res/screens/ios/Default@2x~ipad~comany.png" width="1278" />
     </platform>
-    <engine name="android" spec="~7.1.4" />
     <plugin name="cordova-admob" spec="~5.1.0" />
+    <engine name="android" spec="~7.1.4" />
 </widget>
