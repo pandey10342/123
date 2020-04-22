@@ -147,10 +147,5 @@
         <splash height="2732" platform="ios" src="res/screens/ios/Default@2x~ipad~comany.png" width="1278" />
     </platform>
     <plugin name="cordova-admob" spec="~5.1.0" />
-    
-	
-	<engines>
-  <engine name="cordova" version=">=7.1.0"/>
-  <engine name="android" spec="~7.1.4" />
-</engines>
+    <engine name="android" spec="~7.1.4" />
 </widget>
