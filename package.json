@@ -3,16 +3,13 @@
   "version": "1.4",
   "displayName": "Appetics - Order Food Online",
   "cordova": {
-    "platforms": [
-      "android"
-    ],
+    "platforms": [],
     "plugins": {
       "cordova-admob": {}
     }
   },
   "dependencies": {
     "cordova-admob": "^5.1.0",
-    "cordova-android": "~7.1.4",
     "cordova-connectivity-monitor": "^1.2.2",
     "cordova-play-services-version-adapter": "^1.0.2"
   }
