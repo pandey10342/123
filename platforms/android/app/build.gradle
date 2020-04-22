@@ -265,8 +265,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: '*.jar')
     // SUB-PROJECT DEPENDENCIES START
     implementation(project(path: ":CordovaLib"))
-   compile 'com.google.firebase:firebase-messaging:11.0.1'
-    compile "com.squareup.okhttp3:okhttp:3.12.0"
+    compile "com.google.android.gms:play-services-ads:15.0.0"
     // SUB-PROJECT DEPENDENCIES END
 }
 
