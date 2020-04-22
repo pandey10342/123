@@ -22,6 +22,7 @@ module.exports.metadata =
 // TOP OF METADATA
 {
   "cordova-connectivity-monitor": "1.2.2",
+  "cordova-play-services-version-adapter": "1.0.2",
   "cordova-admob": "5.1.0"
 };
 // BOTTOM OF METADATA

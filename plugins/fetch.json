@@ -14,5 +14,13 @@
     },
     "is_top_level": true,
     "variables": {}
+  },
+  "cordova-play-services-version-adapter": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-play-services-version-adapter"
+    },
+    "is_top_level": false,
+    "variables": {}
   }
 }
